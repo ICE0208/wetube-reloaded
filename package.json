@@ -7,10 +7,22 @@
     "type": "git",
     "url": "git+https://github.com/ICE0208/wetube-reloaded.git"
   },
+  "scripts": {
+    "dev": "nodemon --exec babel-node index.js"
+  },
   "author": "ICE0208",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ICE0208/wetube-reloaded/issues"
   },
-  "homepage": "https://github.com/ICE0208/wetube-reloaded#readme"
+  "homepage": "https://github.com/ICE0208/wetube-reloaded#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/node": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "nodemon": "^2.0.16"
+  }
 }
