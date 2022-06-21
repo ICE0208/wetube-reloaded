@@ -1,0 +1,16 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "wetube clone",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ICE0208/wetube-reloaded.git"
+  },
+  "author": "ICE0208",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ICE0208/wetube-reloaded/issues"
+  },
+  "homepage": "https://github.com/ICE0208/wetube-reloaded#readme"
+}
