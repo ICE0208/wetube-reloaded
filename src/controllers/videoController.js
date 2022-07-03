@@ -1,42 +1,21 @@
-let videos = [
-  {
-    title: "First video",
-    rating: 5,
-    comments: 1,
-    createdAt: "2 minutes ago",
-    views: 4,
-    id: 1,
-  },
-  {
-    title: "Second video",
-    rating: 4,
-    comments: 44,
-    createdAt: "7 minutes ago",
-    views: 59,
-    id: 2,
-  },
-  {
-    title: "Third video",
-    rating: 4,
-    comments: 23,
-    createdAt: "25 minutes ago",
-    views: 543,
-    id: 3,
-  },
-];
+import Video from "../models/Video";
 
-export const trending = (req, res) => {
-  res.render("home", { pageTitle: "Home", videos });
+export const home = (req, res) => {
+  console.log("Start");
+  Video.find({}, (error, videos) => {
+    console.log("Finish");
+    return res.render("home", { pageTitle: "Home", videos: [] });
+  });
 };
 export const watch = (req, res) => {
   const { id } = req.params;
   const video = videos[id - 1];
-  res.render("watch", { pageTitle: `Watching ${video.title}`, video });
+  res.render("watch", { pageTitle: `Watching` });
 };
 export const getEdit = (req, res) => {
   const { id } = req.params;
   const video = videos[id - 1];
-  return res.render("edit", { pageTitle: `Editing: ${video.title}`, video });
+  return res.render("edit", { pageTitle: `Editing` });
 };
 export const postEdit = (req, res) => {
   const { id } = req.params;
@@ -49,14 +28,6 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = (req, res) => {
-  const newVideo = {
-    title: req.body.title,
-    rating: 0,
-    comments: 0,
-    createdAt: "Just now",
-    views: 0,
-    id: videos.length + 1,
-  };
-  videos.push(newVideo);
+  const { title } = req.body;
   return res.redirect("/");
 };
