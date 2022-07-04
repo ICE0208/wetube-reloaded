@@ -14,9 +14,11 @@ export const watch = async (req, res) => {
   const video = videos.find((e) => e.id === id);
   res.render("watch", { pageTitle: `Watching`, video });
 };
-export const getEdit = (req, res) => {
+export const getEdit = async (req, res) => {
   const { id } = req.params;
-  return res.render("edit", { pageTitle: `Editing` });
+  const videos = await Video.find({});
+  const video = videos.find((e) => e.id === id);
+  return res.render("edit", { pageTitle: `Editing`, video });
 };
 export const postEdit = (req, res) => {
   const { id } = req.params;
@@ -33,15 +35,14 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title,
       description,
-      createdAt: Date.now(),
       hashtags: hashtags.split(",").map((word) => `#${word}`),
-      meta: {
-        views: 0,
-        rating: 0,
-      },
     });
-  } catch (e) {
-    console.log(e);
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    return res.render("upload", {
+      pageTitle: "Upload Video",
+      errorMessage: error._message,
+    });
   }
-  return res.redirect("/");
 };
