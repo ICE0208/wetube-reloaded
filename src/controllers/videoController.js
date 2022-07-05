@@ -10,9 +10,8 @@ export const home = async (req, res) => {
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const videos = await Video.find({});
-  const video = videos.find((e) => e.id === id);
-  res.render("watch", { pageTitle: `Watching`, video });
+  const video = await Video.findById(id);
+  res.render("watch", { pageTitle: `${video.title}`, video });
 };
 export const getEdit = async (req, res) => {
   const { id } = req.params;
