@@ -77,5 +77,5 @@ export const search = async (req, res) => {
       },
     }).sort({ createdAt: "desc" });
   }
-  return res.render("search", { pageTitle: "Search", videos });
+  return res.render("search", { pageTitle: "Search", videos, keyword });
 };

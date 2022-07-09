@@ -9,4 +9,5 @@ block content
     each video in videos 
         +video(video)
     else
-        li Sorry, nothing found
+        if keyword
+            li Sorry, nothing found
