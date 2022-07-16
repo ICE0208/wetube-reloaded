@@ -146,8 +146,53 @@ export const finishGithubLogin = async (req, res) => {
 export const getEdit = (req, res) => {
   return res.render("edit-profile", { pageTitle: "Edit Profile" });
 };
-export const postEdit = (req, res) => {
-  return res.render("edit-profile");
+export const postEdit = async (req, res) => {
+  const pageTitle = "Edit Profile";
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, email, username, location },
+  } = req;
+
+  if (username !== req.session.user.username) {
+    const usernameExists = await User.exists({ username });
+    if (usernameExists) {
+      return res.status(400).render("edit-profile", {
+        pageTitle,
+        errorMessage: "This username is already taken.",
+      });
+    }
+  }
+  if (email !== req.session.user.email) {
+    const socialOnly = req.session.user.socialOnly;
+    if (socialOnly) {
+      return res.status(400).render("edit-profile", {
+        pageTitle,
+        errorMessage: "You can't change the social account's email.",
+      });
+    }
+    const emailExists = await User.exists({ email });
+    if (emailExists) {
+      return res.status(400).render("edit-profile", {
+        pageTitle,
+        errorMessage: "This Email is already taken.",
+      });
+    }
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updatedUser;
+  return res.redirect("/users/edit");
 };
 export const logout = (req, res) => {
   req.session.destroy();
