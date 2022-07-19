@@ -195,11 +195,13 @@ export const postEdit = async (req, res) => {
   );
   req.session.user = updatedUser;
 
-  return res.redirect("/users/edit");
+  return res.redirect(`/users/${_id}`);
 };
 export const logout = async (req, res) => {
-  await req.session.destroy();
-  return res.redirect("/");
+  req.session.destroy((err) => {
+    console.log("destroy error: ", err);
+    return res.redirect("/");
+  });
 };
 
 export const getChangePassword = (req, res) => {
@@ -249,10 +251,19 @@ export const see = async (req, res) => {
   if (!user) {
     return res.status(400).render("404", { pageTitle: "404" });
   }
-  user.videos.reverse();
+  let videos = user.videos.reverse();
+  videos.forEach((video) => (video.owner.name = user.name));
+  // videos = await Promise.all(
+  //   videos.map(async (video) => {
+  //     video = await video.populate("owner");
+  //     return video;
+  //   })
+  // );
+  // console.log(videos);
 
   return res.render("users/profile", {
     pageTitle: user.name,
+    videos,
     user,
   });
 };

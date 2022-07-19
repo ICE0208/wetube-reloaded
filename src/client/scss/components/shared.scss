@@ -1,0 +1,28 @@
+.empty__message {
+    margin-bottom: 50px;
+    font-size: 18px;
+}
+
+.video-grid {
+    display: grid;
+    gap: 50px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+.auth-switch {
+    text-align: center;
+    margin-top: 40px;
+    a {
+        text-decoration: underline;
+    }
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.882);
+}
+
+.errorMsg {
+    margin-bottom: 20px;
+}
