@@ -8,9 +8,10 @@ block content
             .fas.fa-search
         //- input(type="submit" value="Search Now")
 
-    each video in videos 
+    if videos.length !== 0
         div.video-grid
-            +video(video)
+            each info in videos
+                +video(info)
     else
         if keyword
             span.empty__message No videos found
