@@ -16,13 +16,12 @@
     }
 }
 
-.avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.882);
-}
-
 .errorMsg {
     margin-bottom: 20px;
+}
+
+.empty__message {
+    display: block;
+    text-align: center;
+    margin: 80px 0 200px 0;
 }

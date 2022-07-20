@@ -27,4 +27,19 @@ header {
         padding: 5px 10px;
         border-radius: 5px;
     }
+    .default__avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.880);
+        font-size: 20px;
+    }
+    .header__avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
 }

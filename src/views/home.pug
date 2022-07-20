@@ -2,7 +2,7 @@ extends base
 include mixins/video
 
 block content
-    if videos
+    if videos.length !== 0
         div.video-grid
             each info in videos
                 +video(info)
