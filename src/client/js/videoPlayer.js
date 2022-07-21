@@ -8,6 +8,7 @@ const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("volume");
 const timeline = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreen");
+const fullScreenIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 
@@ -122,8 +123,10 @@ const handleFullScreenChange = () => {
   const fullscreen = document.fullscreenElement;
   if (fullscreen) {
     videoContainer.classList.add("fullscreen");
+    fullScreenIcon.classList.replace("fa-expand", "fa-compress");
   } else {
     videoContainer.classList.remove("fullscreen");
+    fullScreenIcon.classList.replace("fa-compress", "fa-expand");
   }
 };
 
