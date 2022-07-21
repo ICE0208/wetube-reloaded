@@ -134,6 +134,13 @@ const handleVideoDoubleClick = () => {
   handlefullScreenBtnClick();
 };
 
+const handleKeyDown = (e) => {
+  if (e.keyCode == 32 && e.target == document.body) {
+    e.preventDefault();
+    handlePlayBtnClick();
+  }
+};
+
 // Set Default
 let volumeValue = 0.5;
 let controlsTimeout = null;
@@ -157,6 +164,7 @@ volumeRange.addEventListener("input", handleVolumeRangeChange);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handlefullScreenBtnClick);
 document.addEventListener("fullscreenchange", handleFullScreenChange);
+window.addEventListener("keydown", handleKeyDown);
 
 video.readyState
   ? handleMetadata()
