@@ -110,7 +110,14 @@ const handleVideoMouseleave = () => {
   controlsTimeout = setTimeout(hideControls, controlsDelay);
 };
 
-const handleFullScreenChange = () => {};
+const handleFullScreenChange = () => {
+  const fullscreen = document.fullscreenElement;
+  if (fullscreen) {
+    videoContainer.classList.add("fullscreen");
+  } else {
+    videoContainer.classList.remove("fullscreen");
+  }
+};
 
 // Set Default
 let volumeValue = 0.5;
