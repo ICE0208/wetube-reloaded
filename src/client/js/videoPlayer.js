@@ -90,6 +90,9 @@ const handlefullScreenBtnClick = () => {
 const hideControls = () => {
   videoControls.classList.remove("showing");
 };
+const showCursor = () => {
+  videoContainer.classList.add("hiddenCursor");
+};
 
 const handleVideoMousemove = () => {
   if (controlsTimeout) {
@@ -97,7 +100,11 @@ const handleVideoMousemove = () => {
     controlsTimeout = null;
   }
   videoControls.classList.add("showing");
-  controlsTimeout = setTimeout(hideControls, controlsDelay);
+  videoContainer.classList.remove("hiddenCursor");
+  controlsTimeout = setTimeout(() => {
+    hideControls();
+    showCursor();
+  }, controlsDelay);
 };
 
 const handleVideoMouseleave = () => {
@@ -105,7 +112,10 @@ const handleVideoMouseleave = () => {
     clearTimeout(controlsTimeout);
     controlsTimeout = null;
   }
-  controlsTimeout = setTimeout(hideControls, controlsDelay);
+  controlsTimeout = setTimeout(() => {
+    hideControls();
+    showCursor();
+  }, controlsDelay);
 };
 
 const handleFullScreenChange = () => {
@@ -133,8 +143,8 @@ video.addEventListener("pause", handleVideoPasue);
 video.addEventListener("play", handleVideoPlay);
 video.addEventListener("volumechange", handleVideoVolumeChange);
 video.addEventListener("timeupdate", handleVideoTimeUpdate);
-video.addEventListener("mousemove", handleVideoMousemove);
-video.addEventListener("mouseleave", handleVideoMouseleave);
+videoContainer.addEventListener("mousemove", handleVideoMousemove);
+videoContainer.addEventListener("mouseleave", handleVideoMouseleave);
 volumeRange.addEventListener("input", handleVolumeRangeChange);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handlefullScreenBtnClick);

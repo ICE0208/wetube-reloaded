@@ -1,16 +1,27 @@
 #videoContainer {
+    z-index: 2;
     position: relative;
+    cursor: default;
+    &.hiddenCursor {
+        cursor: none;
+    }
+
     &.fullscreen {
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
     }
     video {
+        z-index: 0;
         width: 100%;
     }
 
     #videoControls {
-        z-index: 100;
+        z-index: 1;
         position: absolute;
         width: 100%;
         height: 20px;
@@ -47,6 +58,7 @@
         }
         &:not(.showing) {
             opacity: 0;
+            pointer-events: none;
         }
     }
 }
