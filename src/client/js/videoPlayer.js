@@ -1,5 +1,3 @@
-console.log("video player");
-
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const playIcon = playBtn.querySelector("i");
@@ -128,6 +126,7 @@ const controlsDelay = 1500;
 video.volume = volumeValue;
 currentTime.innerText = formatTime(0);
 
+video.addEventListener("click", handlePlayBtnClick);
 playBtn.addEventListener("click", handlePlayBtnClick);
 muteBtn.addEventListener("click", handleMuteBtnClick);
 video.addEventListener("pause", handleVideoPasue);
