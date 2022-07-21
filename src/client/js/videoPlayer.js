@@ -2,7 +2,9 @@ console.log("video player");
 
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
+const playIcon = playBtn.querySelector("i");
 const muteBtn = document.getElementById("mute");
+const muteIcon = muteBtn.querySelector("i");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("volume");
@@ -20,10 +22,10 @@ const handlePlayBtnClick = (e) => {
 };
 
 const handleVideoPasue = () => {
-  playBtn.innerText = "Play";
+  playIcon.classList.replace("fa-pause", "fa-play");
 };
 const handleVideoPlay = () => {
-  playBtn.innerText = "Pause";
+  playIcon.classList.replace("fa-play", "fa-pause");
 };
 
 const handleMuteBtnClick = (e) => {
@@ -36,10 +38,10 @@ const handleMuteBtnClick = (e) => {
 
 const handleVideoVolumeChange = (event) => {
   if (video.muted) {
-    muteBtn.innerText = "Unmute";
+    muteIcon.classList.replace("fa-volume-high", "fa-volume-xmark");
     volumeRange.value = 0;
   } else {
-    muteBtn.innerText = "Mute";
+    muteIcon.classList.replace("fa-volume-xmark", "fa-volume-high");
     volumeValue = video.volume;
     volumeRange.value = volumeValue;
   }
@@ -52,7 +54,7 @@ const handleVolumeRangeChange = (event) => {
   video.volume = value;
   if (video.muted) {
     video.muted = false;
-    muteBtn.innerText = "Mute";
+    muteIcon.classList.replace("fa-volume-xmark", "fa-volume-high");
   }
   volumeValue = value;
   video.volume = value;
@@ -81,10 +83,8 @@ const handleTimelineChange = (event) => {
 const handlefullScreenBtnClick = () => {
   const fullscreen = document.fullscreenElement;
   if (fullscreen) {
-    fullScreenBtn.innerText = "Enter Full Screen";
     document.exitFullscreen();
   } else {
-    fullScreenBtn.innerText = "Exit Full Screen";
     videoContainer.requestFullscreen();
   }
 };
@@ -110,6 +110,8 @@ const handleVideoMouseleave = () => {
   controlsTimeout = setTimeout(hideControls, 3000);
 };
 
+const handleFullScreenChange = () => {};
+
 // Set Default
 let volumeValue = 0.5;
 video.volume = volumeValue;
@@ -129,6 +131,7 @@ video.addEventListener("mouseleave", handleVideoMouseleave);
 volumeRange.addEventListener("input", handleVolumeRangeChange);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handlefullScreenBtnClick);
+document.addEventListener("fullscreenchange", handleFullScreenChange);
 
 video.readyState
   ? handleMetadata()
