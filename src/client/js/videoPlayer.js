@@ -127,6 +127,10 @@ const handleFullScreenChange = () => {
   }
 };
 
+const handleVideoDoubleClick = () => {
+  handlefullScreenBtnClick();
+};
+
 // Set Default
 let volumeValue = 0.5;
 let controlsTimeout = null;
@@ -143,6 +147,7 @@ video.addEventListener("pause", handleVideoPasue);
 video.addEventListener("play", handleVideoPlay);
 video.addEventListener("volumechange", handleVideoVolumeChange);
 video.addEventListener("timeupdate", handleVideoTimeUpdate);
+video.addEventListener("dblclick", handleVideoDoubleClick);
 videoContainer.addEventListener("mousemove", handleVideoMousemove);
 videoContainer.addEventListener("mouseleave", handleVideoMouseleave);
 volumeRange.addEventListener("input", handleVolumeRangeChange);
