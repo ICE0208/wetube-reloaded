@@ -1,4 +1,5 @@
 const video = document.querySelector("video");
+const source = document.querySelector("source");
 const playBtn = document.getElementById("play");
 const playIcon = playBtn.querySelector("i");
 const muteBtn = document.getElementById("mute");
@@ -46,17 +47,38 @@ const handleVideoVolumeChange = (event) => {
   }
 };
 
+function isMobile() {
+  var UserAgent = navigator.userAgent;
+
+  if (
+    UserAgent.match(
+      /iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i
+    ) != null ||
+    UserAgent.match(/LG|SAMSUNG|Samsung/) != null
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 const handleVolumeRangeChange = (event) => {
+  if (isMobile()) {
+    volume.value = 1;
+  }
   const {
     target: { value },
   } = event;
-  video.volume = value;
   if (video.muted) {
     video.muted = false;
     muteIcon.classList.replace("fa-volume-xmark", "fa-volume-high");
   }
-  volumeValue = value;
+  const beforeVolume = video.volume;
   video.volume = value;
+  volumeValue = value;
+  if (beforeVolume === video.volume) {
+    volume.value = beforeVolume;
+  }
 };
 
 const formatTime = (seconds) =>
@@ -147,12 +169,20 @@ const handleVideoEnded = () => {
 };
 
 // Set Default
-let volumeValue = 0.5;
+let volumeValue = null;
+if (isMobile()) {
+  video.playsInline = false;
+  volumeValue = 1;
+} else {
+  video.playsInline = true;
+  volumeValue = 0.5;
+}
 let controlsTimeout = null;
 
 const controlsDelay = 1500;
 
 video.volume = volumeValue;
+volume.value = volumeValue;
 currentTime.innerText = formatTime(0);
 
 video.addEventListener("click", handlePlayBtnClick);
