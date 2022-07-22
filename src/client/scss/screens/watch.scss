@@ -1,6 +1,8 @@
 #videoContainer {
     z-index: 2;
     position: relative;
+    display: flex;
+    justify-content: center;
     cursor: default;
     &.hiddenCursor {
         cursor: none;
@@ -15,7 +17,8 @@
     }
     video {
         z-index: 0;
-        width: 100%;
+        max-height: 600px;
+        max-width: 100%;
     }
 
     #videoControls {
