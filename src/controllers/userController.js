@@ -67,6 +67,7 @@ export const postLogin = async (req, res) => {
   }
   req.session.loggedIn = true;
   req.session.user = user;
+  await req.session.save();
   return res.redirect("/");
 };
 export const startGithubLogin = (req, res) => {
@@ -134,10 +135,12 @@ export const finishGithubLogin = async (req, res) => {
       });
       req.session.loggedIn = true;
       req.session.user = user;
+      await req.session.save();
       return res.redirect("/");
     } else {
       req.session.loggedIn = true;
       req.session.user = user;
+      await req.session.save();
       return res.redirect("/");
     }
   } else {
@@ -194,6 +197,7 @@ export const postEdit = async (req, res) => {
     { new: true }
   );
   req.session.user = updatedUser;
+  await req.session.save();
 
   return res.redirect(`/users/${_id}`);
 };
@@ -204,8 +208,9 @@ export const logout = async (req, res) => {
   });
 };
 
-export const getChangePassword = (req, res) => {
+export const getChangePassword = async (req, res) => {
   if (req.session.user.socialOnly === true) {
+    await req.flash("error", "Can't change password.");
     res.write(
       "<script>alert(\"You can't change the social account's password\")</script>"
     );
@@ -254,13 +259,6 @@ export const see = async (req, res) => {
   let videos = user.videos.reverse();
   videos.forEach((video) => (video.owner.name = user.name));
   console.log(videos);
-  // videos = await Promise.all(
-  //   videos.map(async (video) => {
-  //     video = await video.populate("owner");
-  //     return video;
-  //   })
-  // );
-  // console.log(videos);
 
   return res.render("users/profile", {
     pageTitle: user.name,

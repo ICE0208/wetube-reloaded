@@ -7,18 +7,22 @@ export const localsMiddleware = (req, res, next) => {
   next();
 };
 
-export const protectorMiddleware = (req, res, next) => {
+export const protectorMiddleware = async (req, res, next) => {
   if (req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error", "Not authorized");
+
     return res.redirect("/login");
   }
 };
 
-export const publicOnlyMiddleware = (req, res, next) => {
+export const publicOnlyMiddleware = async (req, res, next) => {
   if (!req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error", "Not authorized");
+
     return res.redirect("/");
   }
 };
