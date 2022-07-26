@@ -4,6 +4,8 @@
     display: flex;
     justify-content: center;
     cursor: default;
+    max-height: 600px;
+    max-width: 100%;
     &.hiddenCursor {
         cursor: none;
     }
@@ -17,16 +19,16 @@
     }
     video {
         z-index: 0;
-        max-height: 600px;
-        max-width: 100%;
+        width: 100%;
     }
 
     #videoControls {
+        box-sizing: border-box;
         z-index: 1;
         position: absolute;
         margin-left: 3%;
         width: 94%;
-        height: 20px;
+        height: 34px;
         padding: 10px 6px;
         left: 0;
         bottom: 2%;

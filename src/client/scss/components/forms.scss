@@ -1,9 +1,9 @@
 form {
     label {
-        position: absolute;
-        top: 24px;
-        left: 40px;
-        font-size: 14px;
+        align-self: flex-start;
+        margin-top: 8px;
+        margin-bottom: 6px;
+        padding-left: 6px;
     }
     width: 100%;
     box-sizing: border-box;
@@ -15,7 +15,7 @@ form {
     justify-content: center;
     align-items: center;
     padding: 26px;
-    padding-top: 46px;
+    padding-top: 34px;
     background-color: rgba($color: #000000, $alpha: 0.5);
     border-radius: 10px;
     border: 1px solid rgba($color: #fff, $alpha: 0.2);
