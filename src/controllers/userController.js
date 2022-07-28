@@ -269,7 +269,6 @@ export const see = async (req, res) => {
   }
   let videos = user.videos.reverse();
   videos.forEach((video) => (video.owner.name = user.name));
-  console.log(videos);
 
   return res.render("users/profile", {
     pageTitle: user.name,

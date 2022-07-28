@@ -17,6 +17,7 @@ const handleSubmit = (event) => {
       text,
     }),
   });
+  textarea.value = "";
 };
 
 if (form) {
