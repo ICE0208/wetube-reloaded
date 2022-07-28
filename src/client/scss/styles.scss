@@ -9,6 +9,7 @@
 @import "./components/shared.scss";
 @import "./components/forms.scss";
 @import "./components/social-login.scss";
+@import "./components/bar.scss";
 
 // ? Screens
 @import "./screens/search.scss";
@@ -51,6 +52,7 @@ main {
 }
 
 .message {
+  z-index: 301;
   position: absolute;
   top: 20px;
   left: 0;

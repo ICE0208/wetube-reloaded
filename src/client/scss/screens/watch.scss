@@ -1,4 +1,5 @@
 #videoContainer {
+  background-color: $video-bg;
   z-index: 2;
   position: relative;
   display: flex;
@@ -74,21 +75,192 @@
   }
 }
 
+.video__data {
+  margin-top: 10px;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  .video__hashtags {
+    font-size: 14px;
+    color: $hashtag-color;
+    margin-bottom: 3px;
+  }
+  .video__title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .main-info__and__owner-btn {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    margin-bottom: 14px;
+    .video__main-info {
+      display: flex;
+      gap: 6px;
+      color: $info-color;
+      font-size: 14px;
+    }
+    .owner-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      .edit-btn,
+      .delete-btn {
+        display: block;
+        user-select: none;
+        height: 100%;
+        display: flex;
+        i {
+          margin-right: 4px;
+        }
+      }
+      .delete-btn {
+        position: relative;
+        .delete-btn-area {
+          cursor: pointer;
+        }
+        .delete-btn-extend {
+          position: absolute;
+          padding: 6px 0;
+          top: 32px;
+          right: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+          background-color: $bg;
+          font-size: 0.96em;
+          width: 100%;
+          height: 56px;
+          &.display-none {
+            display: none;
+          }
+
+          .delete-cancel-btn {
+            cursor: pointer;
+            padding-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
+  .video__detail-info {
+    margin: 14px 0;
+    display: flex;
+    gap: 16px;
+    .user__avatar {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.88);
+    }
+
+    .name_and_description {
+      display: flex;
+      flex-direction: column;
+      .user__name {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 14px;
+        text-align: center;
+        font-size: 18px;
+        overflow: hidden;
+      }
+      .video__description {
+        font-size: 14px;
+        word-break: break-all;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.video__add-comments {
+  padding: 20px 14px;
+  height: 50px;
+  .video__add-comment-form {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 14px;
+    textarea {
+      all: unset;
+      resize: none;
+      width: 300px;
+      flex-grow: 1;
+      background-color: $bg;
+      color: white;
+      display: block;
+      max-height: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.443);
+      padding: 10px 4px;
+      &:focus {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.915);
+      }
+    }
+    button {
+      all: unset;
+      cursor: pointer;
+      border: 1px solid white;
+      padding: 10px 18px;
+      background-color: $gray;
+    }
+  }
+}
+
 .video__comments {
   display: flex;
   flex-direction: column;
-  max-width: 320px;
   width: 100%;
   margin: 0 auto;
   margin-top: 20px;
   .video__comment {
-    padding: 10px;
-    border-radius: 9999px;
-    background-color: white;
+    width: 100%;
+    padding: 10px 14px;
+    box-sizing: border-box;
     color: black;
-    margin-bottom: 10px;
-    i {
-      margin-right: 6px;
+    margin-bottom: 14px;
+    min-height: 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    img {
+      width: 36px;
+      height: 36px;
+      object-fit: cover;
+      object-position: center;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .video__comment__info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      width: 100%;
+      margin-left: 4px;
+      color: white;
+      .video__comment__name {
+        max-width: 100px;
+        overflow: hidden;
+        margin-bottom: 4px;
+      }
+      .video__comment__text {
+        width: 100%;
+        overflow: hidden;
+        word-break: break-all;
+        text-overflow: ellipsis;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 3; // 원하는 라인수
+        -webkit-box-orient: vertical;
+      }
     }
   }
 }
