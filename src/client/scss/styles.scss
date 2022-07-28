@@ -42,7 +42,7 @@ main {
 @keyframes goAway {
   from {
     transform: none;
-    opacity: 1;
+    opacity: 0.7;
   }
   to {
     transform: translateY(-50px);
@@ -52,7 +52,7 @@ main {
 
 .message {
   position: absolute;
-  top: 10px;
+  top: 20px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -62,12 +62,14 @@ main {
   border-radius: 26px;
   animation: goAway 0.7s forwards;
   animation-delay: 2s;
+  font-weight: bold;
+  opacity: 0.7;
   &.error {
     background-color: tomato;
     color: white;
   }
   &.info {
-    background-color: lime;
+    background-color: rgb(71, 255, 194);
     color: black;
   }
 }

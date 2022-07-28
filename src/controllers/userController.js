@@ -35,6 +35,7 @@ export const postJoin = async (req, res) => {
       password,
       location,
     });
+    req.flash("info", "Join Completed");
     return res.redirect("/login");
   } catch (error) {
     console.log(error);
@@ -65,10 +66,12 @@ export const postLogin = async (req, res) => {
       errorMessage: "Wrong password",
     });
   }
+  req.flash("info", "Login Completed");
   req.session.loggedIn = true;
   req.session.user = user;
-  await req.session.save();
-  return res.redirect("/");
+  req.session.save(() => {
+    return res.redirect("/");
+  });
 };
 export const startGithubLogin = (req, res) => {
   const baseUrl = "https://github.com/login/oauth/authorize";
@@ -133,15 +136,19 @@ export const finishGithubLogin = async (req, res) => {
         socialOnly: true,
         location: userData.location,
       });
+      req.flash("info", "Login Completed");
       req.session.loggedIn = true;
       req.session.user = user;
-      await req.session.save();
-      return res.redirect("/");
+      req.session.save(() => {
+        return res.redirect("/");
+      });
     } else {
+      req.flash("info", "Login Completed");
       req.session.loggedIn = true;
       req.session.user = user;
-      await req.session.save();
-      return res.redirect("/");
+      req.session.save(() => {
+        return res.redirect("/");
+      });
     }
   } else {
     res.redirect("/login");
@@ -197,13 +204,16 @@ export const postEdit = async (req, res) => {
     { new: true }
   );
   req.session.user = updatedUser;
-  await req.session.save();
-
-  return res.redirect(`/users/${_id}`);
+  req.flash("info", "Profile Updated");
+  req.session.save(() => {
+    return res.redirect(`/users/${_id}`);
+  });
 };
 export const logout = async (req, res) => {
-  req.session.destroy((err) => {
-    console.log("destroy error: ", err);
+  req.flash("info", "Logout Completed");
+  req.session.user = null;
+  req.session.loggedIn = false;
+  req.session.save(() => {
     return res.redirect("/");
   });
 };
@@ -245,9 +255,10 @@ export const postChangePassword = async (req, res) => {
   }
 
   user.password = newPassword;
+  req.flash("info", "Password Updated");
   await user.save();
 
-  return res.redirect("/users/logout");
+  return res.redirect("/");
 };
 
 export const see = async (req, res) => {

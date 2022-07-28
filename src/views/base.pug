@@ -10,10 +10,10 @@ html(lang="ko")
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css")
         link(rel="stylesheet" href="/static/css/styles.css")
     body 
-        if messages.error 
-            +message("error", messages.error)
-        if messages.info 
-            +message("info", messages.info)
+        if error_messages.length > 0
+            +message("error", error_messages[0])
+        if info_messages.length > 0
+            +message("info", info_messages[0])
         include partials/header
 
         main

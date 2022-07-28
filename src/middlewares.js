@@ -4,6 +4,8 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.siteName = "Wetube";
   res.locals.loggedInUser = req.session.user || {};
+  res.locals.error_messages = req.flash("error");
+  res.locals.info_messages = req.flash("info");
   next();
 };
 
@@ -12,8 +14,9 @@ export const protectorMiddleware = async (req, res, next) => {
     return next();
   } else {
     req.flash("error", "Not authorized");
-
-    return res.redirect("/login");
+    req.session.save(() => {
+      return res.redirect("/login");
+    });
   }
 };
 
@@ -22,8 +25,9 @@ export const publicOnlyMiddleware = async (req, res, next) => {
     return next();
   } else {
     req.flash("error", "Not authorized");
-
-    return res.redirect("/");
+    req.session.save(() => {
+      return res.redirect("/");
+    });
   }
 };
 
