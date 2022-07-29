@@ -22,9 +22,9 @@ export const watch = async (req, res) => {
       populate: [{ path: "owner" }],
     });
   if (!video) {
-    return res.status(404).render("404", { pageTitle: "Video not found." });
+    req.flash("error", "Video Not Found");
+    return res.status(404).redirect("/");
   }
-  console.log(video);
   return res.render("watch", { pageTitle: `${video.title}`, video });
 };
 
@@ -35,7 +35,8 @@ export const getEdit = async (req, res) => {
   } = req.session;
   const video = await Video.findById(id);
   if (!video) {
-    return res.status(400).render("404", { pageTitle: "Video not found." });
+    req.flash("error", "Video Not Found");
+    return res.status(404).redirect("/");
   }
   if (String(video.owner) !== String(_id)) {
     await req.flash("error", "Not authorized");
@@ -162,4 +163,32 @@ export const createComment = async (req, res) => {
   await video.save();
 
   return res.status(201).json({ newCommentId: comment._id });
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    params: { id: commentId },
+    session: {
+      user: { _id: userId },
+    },
+  } = req;
+  const comment = await Comment.findById(commentId).populate("video");
+
+  if (!comment) {
+    return res.sendStatus(404);
+  }
+  if (String(comment.owner) !== String(userId)) {
+    return res.sendStatus(403);
+  }
+
+  // ? Delete a Comment
+  // delete at video's comment list
+  comment.video.comments = comment.video.comments.filter((id) => {
+    return String(id) !== String(commentId);
+  });
+  await comment.video.save();
+  // delete this comment oneself
+  await Comment.findByIdAndDelete(commentId);
+
+  res.sendStatus(200);
 };

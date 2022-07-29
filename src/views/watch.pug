@@ -61,13 +61,17 @@ block content
                 textarea(placeholder="Write a nice comment..." rows="1")
                 button Add
     div.video__comments
-        ul 
+        ul.video__comments-list 
             each comment in video.comments.reverse()
                 li(data-id=comment._id).video__comment
-                    img(src=comment.owner.avatarUrl)
+                    img(src=comment.owner.avatarUrl).video__comment__avatar
                     div.video__comment__info
                         span.video__comment__name #{comment.owner.name}
                         span.video__comment__text #{comment.text}
+                    if String(loggedInUser._id) === String(comment.owner._id)
+                        i.fa-regular.fa-trash-can.deleteBtn
+                    else 
+                        i.noneBtn
 
 block scripts 
     script(src="/static/js/videoPlayer.js")
