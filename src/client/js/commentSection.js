@@ -3,8 +3,8 @@ const form = document.getElementById("commentForm");
 
 const getUserData = async () => {
   const data = await (
-    await fetch("/api//users/getSessionUser", {
-      method: "POST",
+    await fetch("/api/users", {
+      method: "GET",
     })
   ).json();
   return data;
