@@ -66,7 +66,7 @@ block content
                 li(data-id=comment._id).video__comment
                     img(src=comment.owner.avatarUrl).video__comment__avatar
                     div.video__comment__info
-                        span.video__comment__name #{comment.owner.name}
+                        a(href=`/users/${comment.owner._id}`).video__comment__name #{comment.owner.name}
                         span.video__comment__text #{comment.text}
                     if String(loggedInUser._id) === String(comment.owner._id)
                         i.fa-regular.fa-trash-can.deleteBtn

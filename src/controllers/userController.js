@@ -278,9 +278,8 @@ export const see = async (req, res) => {
 };
 
 export const getSessionUser = (req, res) => {
+  const user = req.session.user;
   return res.json(
-    req.session.user
-      ? { name: req.session.user.name, avatarUrl: req.session.user.avatarUrl }
-      : {}
+    user ? { name: user.name, avatarUrl: user.avatarUrl, id: user._id } : {}
   );
 };

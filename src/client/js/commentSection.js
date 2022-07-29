@@ -31,14 +31,15 @@ const addComment = async (text, id) => {
   newComment.appendChild(img);
   newComment.appendChild(div);
 
-  const nameSpan = document.createElement("span");
-  nameSpan.className = "video__comment__name";
-  nameSpan.innerText = userData.name;
+  const nameA = document.createElement("a");
+  nameA.href = `/users/${userData.id}`;
+  nameA.className = "video__comment__name";
+  nameA.innerText = userData.name;
   const textSpan = document.createElement("span");
   textSpan.className = "video__comment__text";
   textSpan.innerText = text;
 
-  div.appendChild(nameSpan);
+  div.appendChild(nameA);
   div.appendChild(textSpan);
 
   const deleteIcon = document.createElement("i");
