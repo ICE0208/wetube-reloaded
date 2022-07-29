@@ -63,7 +63,7 @@ block content
     div.video__comments
         ul 
             each comment in video.comments.reverse()
-                li.video__comment
+                li(data-id=comment._id).video__comment
                     img(src=comment.owner.avatarUrl)
                     div.video__comment__info
                         span.video__comment__name #{comment.owner.name}
