@@ -1,3 +1,16 @@
+// ! Count of Comments
+const countSpan = document.querySelector(".comments__count");
+let commentsCount = parseInt(countSpan.dataset.count);
+
+const plusCount = () => {
+  commentsCount = commentsCount + 1;
+  countSpan.innerText = `${commentsCount} Comments`;
+};
+const minusCount = () => {
+  commentsCount = commentsCount - 1;
+  countSpan.innerText = `${commentsCount} Comments`;
+};
+
 // ! Add a Comment
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
@@ -70,6 +83,7 @@ const handleSubmit = async (event) => {
   if (response.status === 201) {
     const { newCommentId } = await response.json();
     addComment(text, newCommentId);
+    plusCount();
   }
 };
 
@@ -96,6 +110,7 @@ const handleDeleteBtn = async (event) => {
 
   if (response.status === 200) {
     commentList.removeChild(targetMsg);
+    minusCount();
   }
 };
 

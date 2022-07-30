@@ -61,7 +61,8 @@ block content
                 textarea(placeholder="Write a nice comment..." rows="1")
                 button Add
     div.video__comments
-        ul.video__comments-list 
+        span(data-count=video.comments.length).comments__count #{video.comments.length} Comments
+        ul.video__comments-list
             each comment in video.comments.reverse()
                 li(data-id=comment._id).video__comment
                     img(src=comment.owner.avatarUrl).video__comment__avatar
