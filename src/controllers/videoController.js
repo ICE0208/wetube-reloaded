@@ -112,6 +112,11 @@ export const deleteVideo = async (req, res) => {
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
+
+  const videoComments = video.comments;
+  for (const commentId of videoComments) {
+    await Comment.findByIdAndDelete(commentId);
+  }
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
 };
