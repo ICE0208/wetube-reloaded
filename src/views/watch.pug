@@ -30,9 +30,9 @@ block content
             div.video__main-info
                 span #{video.meta.views + (video.meta.views>1?" views":" view")} 
                 span ·
-                span #{`${video.createdAt.getFullYear()}.`}
-                    | #{`${video.createdAt.getMonth()+1}.`}
-                    | #{`${video.createdAt.getDate()}.`}
+                span #{`${video.createdAt.getFullYear()}. `}
+                    |#{`${video.createdAt.getMonth()+1}. `}
+                    |#{`${video.createdAt.getDate()}.`}
             div.owner-btn
                 if String(video.owner._id) === String(loggedInUser._id)
                     a(href=`${video.id}/edit`).edit-btn
@@ -67,7 +67,11 @@ block content
                 li(data-id=comment._id).video__comment
                     img(src=comment.owner.avatarUrl).video__comment__avatar
                     div.video__comment__info
-                        a(href=`/users/${comment.owner._id}`).video__comment__name #{comment.owner.name}
+                        div.name__and__date
+                            a(href=`/users/${comment.owner._id}`).video__comment__name #{comment.owner.name}
+                            span.video__comment__date #{`${comment.createdAt.getFullYear()}. `}
+                                |#{`${comment.createdAt.getMonth()+1}. `}
+                                |#{`${comment.createdAt.getDate()}.`}
                         span.video__comment__text #{comment.text}
                     if String(loggedInUser._id) === String(comment.owner._id)
                         i.fa-regular.fa-trash-can.deleteBtn

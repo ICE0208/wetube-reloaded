@@ -38,22 +38,35 @@ const addComment = async (text, id) => {
     img.src = userData.avatarUrl;
   }
   img.className = "video__comment__avatar";
-  const div = document.createElement("div");
-  div.className = "video__comment__info";
+  const infoDiv = document.createElement("div");
+  infoDiv.className = "video__comment__info";
 
   newComment.appendChild(img);
-  newComment.appendChild(div);
+  newComment.appendChild(infoDiv);
+
+  const nameDateDiv = document.createElement("div");
+  nameDateDiv.className = "name__and__date";
 
   const nameA = document.createElement("a");
   nameA.href = `/users/${userData.id}`;
   nameA.className = "video__comment__name";
   nameA.innerText = userData.name;
+  const dateSpan = document.createElement("span");
+  dateSpan.className = "video__comment__date";
+  const today = new Date();
+  dateSpan.innerText = `${today.getFullYear()}. ${
+    today.getMonth() + 1
+  }. ${today.getDate()}.`;
+
+  nameDateDiv.appendChild(nameA);
+  nameDateDiv.appendChild(dateSpan);
+
   const textSpan = document.createElement("span");
   textSpan.className = "video__comment__text";
   textSpan.innerText = text;
 
-  div.appendChild(nameA);
-  div.appendChild(textSpan);
+  infoDiv.appendChild(nameDateDiv);
+  infoDiv.appendChild(textSpan);
 
   const deleteIcon = document.createElement("i");
   deleteIcon.classList = "fa-regular fa-trash-can";
