@@ -33,7 +33,9 @@ export const publicOnlyMiddleware = async (req, res, next) => {
   }
 };
 
-const s3 = new S3Client({
+const isHeroku = process.env.NODE_ENV === "production";
+
+export const s3 = new S3Client({
   credentials: {
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET,
@@ -41,10 +43,22 @@ const s3 = new S3Client({
   region: "us-west-1",
 });
 
-const multerUploader = multerS3({
+const s3ImageUploader = multerS3({
   s3: s3,
   bucket: "wetube-ice0208",
   acl: "public-read",
+  key: function (req, file, cb) {
+    cb(null, `images/${Date.now().toString()}`);
+  },
+});
+
+const s3VideoUploader = multerS3({
+  s3: s3,
+  bucket: "wetube-ice0208",
+  acl: "public-read",
+  key: function (req, file, cb) {
+    cb(null, `videos/${Date.now().toString()}`);
+  },
 });
 
 export const avatarUpload = multer({
@@ -52,12 +66,12 @@ export const avatarUpload = multer({
   limits: {
     fileSize: 3000000,
   },
-  storage: multerUploader,
+  storage: isHeroku ? s3ImageUploader : undefined,
 });
 export const videoUpload = multer({
   dest: "uploads/videos",
   limits: {
     fileSize: 100000000,
   },
-  storage: multerUploader,
+  storage: isHeroku ? s3VideoUploader : undefined,
 });

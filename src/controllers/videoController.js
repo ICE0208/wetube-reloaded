@@ -1,6 +1,8 @@
 import User from "../models/User";
 import Video from "../models/Video";
 import Comment from "../models/Comment";
+import { s3 } from "../middlewares";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 export const home = async (req, res) => {
   try {
@@ -78,12 +80,13 @@ export const postUpload = async (req, res) => {
   } = req.session;
   const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
+  const isHeroku = process.env.NODE_ENV === "production";
   try {
     const newVideo = await Video.create({
       title,
       description,
-      fileUrl: `${video[0].location}`,
-      thumbUrl: `${thumb[0].location}`,
+      fileUrl: isHeroku ? `${video[0].location}` : `/${video[0].path}`,
+      thumbUrl: isHeroku ? `${thumb[0].location}` : `/${thumb[0].path}`,
       owner: _id,
       hashtags: Video.formatHashtags(hashtags),
     });
@@ -111,6 +114,22 @@ export const deleteVideo = async (req, res) => {
   }
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
+  }
+
+  const bucketParams = {
+    Bucket: "wetube-ice0208",
+    Key: `videos/${video.fileUrl.split("/")[4]}`,
+  };
+  const bucketParams2 = {
+    Bucket: "wetube-ice0208",
+    Key: `videos/${video.thumbUrl.split("/")[4]}`,
+  };
+  try {
+    await s3.send(new DeleteObjectCommand(bucketParams));
+    await s3.send(new DeleteObjectCommand(bucketParams2));
+  } catch (err) {
+    console.log("Error", err);
+    return;
   }
 
   const videoComments = video.comments;
