@@ -14,3 +14,10 @@ block content
         if !loggedInUser.socialOnly
             div.edit-profile__password
                 a(href="change-password") Change Password &rarr;
+block scripts 
+    script.
+        const form = document.querySelector("form")
+        const deleteBtn = form.querySelector(`input[type="submit"]`)
+        form.addEventListener("submit", () => {
+            deleteBtn.disabled = true
+        })

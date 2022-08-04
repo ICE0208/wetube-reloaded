@@ -1,3 +1,5 @@
+const { TargetGrantFilterSensitiveLog } = require("@aws-sdk/client-s3");
+
 // ! Count of Comments
 const countSpan = document.querySelector(".comments__count");
 let commentsCount = parseInt(countSpan.dataset.count);
@@ -14,6 +16,7 @@ const minusCount = () => {
 // ! Add a Comment
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
+const addButton = form.querySelector("button");
 
 const getUserData = async () => {
   const data = await (
@@ -77,11 +80,12 @@ const addComment = async (text, id) => {
 };
 
 const handleSubmit = async (event) => {
+  addButton.disabled = true;
   event.preventDefault();
   const textarea = form.querySelector("textarea");
   const text = textarea.value.trim();
   const videoId = videoContainer.dataset.id;
-  if (text === "") return;
+  if (text === "") return (addButton.disabled = false);
 
   const response = await fetch(`/api/videos/${videoId}/comment`, {
     method: "POST",
@@ -93,6 +97,7 @@ const handleSubmit = async (event) => {
     }),
   });
   textarea.value = "";
+  addButton.disabled = false;
   if (response.status === 201) {
     const { newCommentId } = await response.json();
     addComment(text, newCommentId);
@@ -111,11 +116,13 @@ const deleteBtns = document.querySelectorAll(".video__comment .deleteBtn");
 
 const handleDeleteBtn = async (event) => {
   const {
+    target: icon,
     target: { parentElement: targetMsg },
   } = event;
   const {
     dataset: { id: targetId },
   } = targetMsg;
+  icon.remove();
 
   const response = await fetch(`/api/comments/${targetId}`, {
     method: "DELETE",

@@ -18,3 +18,9 @@ block content
 
 block scripts 
     script(src="/static/js/recorder.js")
+    script.
+        const form = document.querySelector("form")
+        const deleteBtn = form.querySelector(`input[type="submit"]`)
+        form.addEventListener("submit", () => {
+            deleteBtn.disabled = true
+        })
