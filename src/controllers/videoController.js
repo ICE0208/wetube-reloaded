@@ -1,7 +1,7 @@
 import User from "../models/User";
 import Video from "../models/Video";
 import Comment from "../models/Comment";
-import { s3 } from "../middlewares";
+import { useAWS, s3 } from "../middlewares";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 export const home = async (req, res) => {
@@ -80,13 +80,12 @@ export const postUpload = async (req, res) => {
   } = req.session;
   const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
-  const isHeroku = process.env.NODE_ENV === "production";
   try {
     const newVideo = await Video.create({
       title,
       description,
-      fileUrl: isHeroku ? `${video[0].location}` : `/${video[0].path}`,
-      thumbUrl: isHeroku ? `${thumb[0].location}` : `/${thumb[0].path}`,
+      fileUrl: useAWS ? `${video[0].location}` : `/${video[0].path}`,
+      thumbUrl: useAWS ? `${thumb[0].location}` : `/${thumb[0].path}`,
       owner: _id,
       hashtags: Video.formatHashtags(hashtags),
     });

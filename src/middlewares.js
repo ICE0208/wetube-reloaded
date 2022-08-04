@@ -33,7 +33,8 @@ export const publicOnlyMiddleware = async (req, res, next) => {
   }
 };
 
-const isHeroku = process.env.NODE_ENV === "production";
+// export const isHeroku = process.env.NODE_ENV === "production";
+export const useAWS = true;
 
 export const s3 = new S3Client({
   credentials: {
@@ -66,12 +67,12 @@ export const avatarUpload = multer({
   limits: {
     fileSize: 3000000,
   },
-  storage: isHeroku ? s3ImageUploader : undefined,
+  storage: useAWS ? s3ImageUploader : undefined,
 });
 export const videoUpload = multer({
   dest: "uploads/videos",
   limits: {
     fileSize: 100000000,
   },
-  storage: isHeroku ? s3VideoUploader : undefined,
+  storage: useAWS ? s3VideoUploader : undefined,
 });

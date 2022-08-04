@@ -2,6 +2,8 @@ import User from "../models/User";
 import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
+import { useAWS, s3 } from "../middlewares";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
@@ -191,15 +193,11 @@ export const postEdit = async (req, res) => {
       });
     }
   }
-  const isHeroku = process.env.NODE_ENV === "production";
+  const oldUser = await User.findById(_id);
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file
-        ? isHeroku
-          ? file.location
-          : `/${file.path}`
-        : avatarUrl,
+      avatarUrl: file ? (useAWS ? file.location : `/${file.path}`) : avatarUrl,
       name,
       email,
       username,
@@ -207,7 +205,22 @@ export const postEdit = async (req, res) => {
     },
     { new: true }
   );
+
   req.session.user = updatedUser;
+
+  // ? 기존 프로필 이미지 삭제
+  if (oldUser.avatarUrl !== updatedUser.avatarUrl) {
+    const bucketParams = {
+      Bucket: "wetube-ice0208",
+      Key: `images/${oldUser.avatarUrl.split("/")[4]}`,
+    };
+    try {
+      await s3.send(new DeleteObjectCommand(bucketParams));
+    } catch (err) {
+      return;
+    }
+  }
+
   req.flash("info", "Profile Updated");
   req.session.save(() => {
     return res.redirect(`/users/${_id}`);
