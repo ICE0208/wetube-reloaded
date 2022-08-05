@@ -209,7 +209,7 @@ export const postEdit = async (req, res) => {
   req.session.user = updatedUser;
 
   // ? 기존 프로필 이미지 삭제
-  if (oldUser.avatarUrl !== updatedUser.avatarUrl) {
+  if (oldUser.avatarUrl && oldUser.avatarUrl !== updatedUser.avatarUrl) {
     const bucketParams = {
       Bucket: "wetube-ice0208",
       Key: `images/${oldUser.avatarUrl.split("/")[4]}`,
